@@ -1,30 +1,80 @@
-angular.module('starter.controllers', ['ngCordova'])
-    .controller('ChatsCtrl', function($scope, Chats, $ionicPlatform, $cordovaContacts, $rootScope, $cordovaLocalNotification) {
-        $ionicPlatform.ready(function() {
-            $scope.getAllContacts = function() {
-                $cordovaContacts.find({}).then(function(allContacts) {
-                    $scope.contacts = allContacts;
-                }, function(err) {
-                    $scope.contacts = err;
-                })
-            };
+/*"{"
+id ":"
+1 ","
+rawId ":"
+8 ","
+displayName ":"
+shirisha sagar ","
+name ":{"
+familyName ":"
+sagar ","
+givenName ":"
+shirisha ","
+formatted ":"
+shirisha sagar "},"
+nickname ":null,"
+phoneNumbers ":null,"
+emails ":[{"
+id ":"
+53 ","
+pref ":false,"
+value ":"
+shirishasagar90 @gmail.com ","
+type ":"
+other "}],"
+addresses ":null,"
+ims ":null,"
+organizations ":null,"
+birthday ":null,"
+note ":"
+","
+photos ":[{"
+id ":"
+48 ","
+pref ":false,"
+type ":"
+url ","
+value ":"
+content: //com.android.contacts/contacts/1/photo"}],"categories":null,"urls":[{"id":"55","pref":false,"value":"http://www.google.com/profiles/116798261534200537040","type":"other"}]}"
+*/
 
-            $scope.getAllContacts();
+    /* $scope.findContactsBySearchTerm = function(searchTerm) {
+                 var opts = { //search options
+                     filter: searchTerm, // 'Bob'
+                     multiple: true, // Yes, return any contact that matches criteria
+                     fields: ['displayName', 'name'], // These are the fields to search for 'bob'.
+                     desiredFields: [id] //return fields.
+                 };
 
-            $scope.scheduleSingleNotification = function() {
-                debugger;
-                $cordovaLocalNotification.schedule({
-                    id: 1,
-                    title: 'My first notification',
-                    text: 'Did u recieve it',
-                    data: {
-                        customProperty: 'custom value'
-                    }
-                }).then(function(result) {
-                    // ...
-                });
-               
-            };
+                 if ($ionicPlatform.isAndroid()) {
+                     opts.hasPhoneNumber = true; //hasPhoneNumber only works for android.
+                 };
+
+                 $cordovaContacts.find(opts).then(function(contactsFound) {
+                     $scope.contacts = contactsFound;
+                 }, function(err) {});
+             }*/
+
+            /* $scope.pickContactUsingNativeUI = function() {
+                 $cordovaContacts.pickContact().then(function(contactPicked) {
+                     $scope.contact = contactPicked;
+                 }, function(err) {})
+             }*/
+
+            /*plugin ends*/
+
+ /*plugin*/
+
+
+            /*     $scope.addContact = function() {
+                     $cordovaContacts.save($scope.contactForm).then(function(result) {}, function(err) {});
+                 };*/
+
+
+controller.js
+
+
+
 
             $scope.scheduleMultipleNotifications = function() {
                 $cordovaLocalNotification.schedule([{
@@ -51,22 +101,7 @@ angular.module('starter.controllers', ['ngCordova'])
                 }]).then(function(result) {
                     // ...
                 });
-               
-            };
 
-            $scope.scheduleDelayedNotification = function() {
-                var now = new Date().getTime();
-                var _10SecondsFromNow = new Date(now + 10 * 1000);
-
-                $cordovaLocalNotification.schedule({
-                    id: 1,
-                    title: 'Scheduled for _10SecondsFromNow',
-                    text: 'Keep recieving my msgs :)',
-                    at: _10SecondsFromNow
-                }).then(function(result) {
-                    // ...
-                });
-               
             };
 
             $scope.scheduleEveryMinuteNotification = function() {
@@ -179,12 +214,3 @@ angular.module('starter.controllers', ['ngCordova'])
                 });
 
 
-        });
-        $scope.chats = Chats.all();
-        $scope.remove = function(chat) {
-            Chats.remove(chat);
-        };
-    })
-    .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-        $scope.chat = Chats.get($stateParams.chatId);
-    });
