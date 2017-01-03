@@ -1,13 +1,13 @@
 <ion-view view-title="Dashboard">
-  <ion-content class="padding">
-<div class="list">
-
-    <a class="item item-avatar" href="#" ng-repeat="chat in chats">
-       <img ng-src="{{chat.face}}">
-     <h2>{{chat.name}}</h2>
-        <p>{{chat.lastText}}</p>
-    </a>
-{{contacts}}
-</div>
-  </ion-content>
+    <ion-content class="padding">
+        <div class="list">
+            <a class="item item-avatar" ng-repeat="contact in contacts" ng-if="contact.phoneNumbers">
+                    <img ng-src="img/ben.png">
+                    <h2>{{contact.displayName}}</h2>
+                    <p>{{contact.phoneNumbers[0].value}}</p>
+            </a>
+            <!--    <button ng-click="getAllContacts()">Click here</button>
+            Here{{contacts}} -->
+        </div>
+    </ion-content>
 </ion-view>

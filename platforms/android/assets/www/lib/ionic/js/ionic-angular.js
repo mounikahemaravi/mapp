@@ -554,7 +554,7 @@ function($document, $ionicBody, $timeout) {
         cbEle = $document[0].createElement('div');
         cbEle.className = 'click-block';
         $ionicBody.append(cbEle);
-        cbEle.addEventListener('touchstart', preventClick);
+        cbEle.addEventListener('touchstart', preventClick, Modernizr.passiveeventlisteners ? {passive: true} : false);
         cbEle.addEventListener('mousedown', preventClick);
       }
       pendingShow = false;

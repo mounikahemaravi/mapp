@@ -73,3 +73,4 @@ angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.
   $urlRouterProvider.otherwise('/tab/chats');
 
 });
+

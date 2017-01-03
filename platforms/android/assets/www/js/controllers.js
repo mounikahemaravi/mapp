@@ -1,76 +1,56 @@
 angular.module('starter.controllers', ['ngCordova'])
-
-.controller('ChatsCtrl', function($scope, Chats, $cordovaContacts, $ionicPlatform) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
-
-
-    $ionicPlatform.ready(function() {
-        /*plugin*/
-
-
-        $scope.addContact = function() {
-            $cordovaContacts.save($scope.contactForm).then(function(result) {}, function(err) {});
-        };
-
-        $scope.getAllContacts = function() {
-            $cordovaContacts.find().then(function(allContacts) { //omitting parameter to .find() causes all contacts to be returned
-                $scope.contacts = allContacts;
-            }, function(err) {})
-        };
-
-        /*   $scope.getAllContacts();
-           console.log($scope.getAllContacts());*/
-
-        $scope.findContactsBySearchTerm = function(searchTerm) {
-            var opts = { //search options
-                filter: searchTerm, // 'Bob'
-                multiple: true, // Yes, return any contact that matches criteria
-                fields: ['displayName', 'name'], // These are the fields to search for 'bob'.
-                desiredFields: [id] //return fields.
+    .controller('ChatsCtrl', function($scope, Chats, $ionicPlatform, $cordovaContacts, $rootScope, $cordovaLocalNotification) {
+        $ionicPlatform.ready(function() {
+            $scope.getAllContacts = function() {
+                $cordovaContacts.find({}).then(function(allContacts) {
+                    $scope.contacts = allContacts;
+                }, function(err) {
+                    $scope.contacts = err;
+                })
             };
 
-            if ($ionicPlatform.isAndroid()) {
-                opts.hasPhoneNumber = true; //hasPhoneNumber only works for android.
+            $scope.getAllContacts();
+
+            $scope.scheduleSingleNotification = function() {
+                debugger;
+                $cordovaLocalNotification.schedule({
+                    id: 1,
+                    title: 'My first notification',
+                    text: 'Did u recieve it',
+                    data: {
+                        customProperty: 'custom value'
+                    }
+                }).then(function(result) {
+                    // ...
+                });
+                $scope.scheduleDelayedNotification();
+
             };
 
-            $cordovaContacts.find(opts).then(function(contactsFound) {
-                $scope.contacts = contactsFound;
-            }, function(err) {});
-        }
 
-        $scope.pickContactUsingNativeUI = function() {
-            $cordovaContacts.pickContact().then(function(contactPicked) {
-                $scope.contact = contactPicked;
-            }, function(err) {})
-        }
+            $scope.scheduleDelayedNotification = function() {
+                var now = new Date().getTime();
+                var _10SecondsFromNow = new Date(now + 10 * 1000);
 
-        /*plugin ends*/
+                $cordovaLocalNotification.schedule({
+                    id: 1,
+                    title: 'Scheduled for _10SecondsFromNow',
+                    text: 'Keep recieving my msgs :)',
+                    at: _10SecondsFromNow
+                }).then(function(result) {
+                    // ...
+                });
+
+            };
 
 
 
+        });
+        $scope.chats = Chats.all();
+        $scope.remove = function(chat) {
+            Chats.remove(chat);
+        };
+    })
+    .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
+        $scope.chat = Chats.get($stateParams.chatId);
     });
-
-
-
-
-
-
-
-    $scope.chats = Chats.all();
-    $scope.remove = function(chat) {
-        Chats.remove(chat);
-    };
-
-
-
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-    $scope.chat = Chats.get($stateParams.chatId);
-});

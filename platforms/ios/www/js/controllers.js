@@ -19,14 +19,20 @@ angular.module('starter.controllers', ['ngCordova'])
         };
 
         $scope.getAllContacts = function() {
-            $cordovaContacts.find().then(function(allContacts) { //omitting parameter to .find() causes all contacts to be returned
+            debugger;
+            $cordovaContacts.find().then(function(allContacts) {
+            debugger;
+            
+             //omitting parameter to .find() causes all contacts to be returned
                 $scope.contacts = allContacts;
-            }, function(err) {})
+            }, function(err) {
+                $scope.contacts = err;
+            })
         };
 
-        /*   $scope.getAllContacts();
-           console.log($scope.getAllContacts());*/
-
+         /*  $scope.getAllContacts();
+           console.log($scope.getAllContacts());
+*/
         $scope.findContactsBySearchTerm = function(searchTerm) {
             var opts = { //search options
                 filter: searchTerm, // 'Bob'
