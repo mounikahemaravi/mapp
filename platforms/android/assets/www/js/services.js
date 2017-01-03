@@ -18,7 +18,7 @@ angular.module('starter.services', [])
     id: 2,
     name: 'Adam Bradleyson',
     lastText: 'I should buy a boat',
-    face: 'img/ben.jpg'
+    face: 'img/ben.png'
   }, {
     id: 3,
     name: 'Perry Governor',

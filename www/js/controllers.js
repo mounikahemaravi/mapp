@@ -12,7 +12,6 @@ angular.module('starter.controllers', ['ngCordova'])
             $scope.getAllContacts();
 
             $scope.scheduleSingleNotification = function() {
-                debugger;
                 $cordovaLocalNotification.schedule({
                     id: 1,
                     title: 'My first notification',
@@ -43,13 +42,23 @@ angular.module('starter.controllers', ['ngCordova'])
 
             };
 
-
-
+            $scope.getSMS = function() {
+                debugger;
+                if (window.SMS) {
+                    window.SMS.listSMS({}, function(data) {
+                        $scope.smses = data;
+                    }, function(err) {
+                        console.log('error list sms: ' + err);
+                    });
+                }
+            }
         });
         $scope.chats = Chats.all();
         $scope.remove = function(chat) {
             Chats.remove(chat);
         };
+
+
     })
     .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
         $scope.chat = Chats.get($stateParams.chatId);
